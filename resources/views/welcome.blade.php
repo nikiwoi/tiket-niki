@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
             background: linear-gradient(135deg, #111827 0%, #312e81 50%, #4c1d95 100%);
             min-height: 100vh;
         }
+
         .glass-panel {
             background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(12px);
@@ -21,20 +23,41 @@
         }
     </style>
 </head>
+
 <body class="flex items-center justify-center p-4 sm:p-8">
 
     <div class="glass-panel w-full max-w-lg rounded-2xl shadow-2xl p-8 sm:p-10 relative overflow-hidden">
         <!-- Decorative Glow -->
-        <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
-        <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+        <div
+            class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob">
+        </div>
+        <div
+            class="absolute -bottom-20 -left-20 w-40 h-40 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000">
+        </div>
 
         <div class="relative z-10">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">Neon Nights Tour</h1>
                 <p class="text-gray-300 text-sm">Register to secure your tickets now.</p>
             </div>
+            @if (session('success'))
+                <div
+                    class="mb-6 p-4 rounded-lg bg-emerald-500/20 border border-emerald-500/50 text-emerald-200 text-sm">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-            <form action="#" method="POST" class="space-y-5" onsubmit="event.preventDefault();">
+            @if ($errors->any())
+                <div class="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-200 text-sm">
+                    <ul class="list-disc list-inside space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('register.submit') }}" method="POST" class="space-y-5">
                 <!-- Name Field -->
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-200 mb-1">Full Name</label>
@@ -59,7 +82,8 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <!-- Ticket Type -->
                     <div>
-                        <label for="ticket-type" class="block text-sm font-medium text-gray-200 mb-1">Ticket Type</label>
+                        <label for="ticket-type" class="block text-sm font-medium text-gray-200 mb-1">Ticket
+                            Type</label>
                         <select id="ticket-type" name="ticket-type" required
                             class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all appearance-none cursor-pointer">
                             <option value="" disabled selected>Select type</option>
@@ -72,7 +96,8 @@
                     <!-- Quantity -->
                     <div>
                         <label for="quantity" class="block text-sm font-medium text-gray-200 mb-1">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" min="1" max="10" required value="1"
+                        <input type="number" id="quantity" name="quantity" min="1" max="10" required
+                            value="1"
                             class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
                     </div>
                 </div>
@@ -84,7 +109,7 @@
                         Register Now
                     </button>
                 </div>
-                
+
                 <p class="text-center text-xs text-gray-400 mt-4">
                     By registering, you agree to our Terms of Service and Privacy Policy.
                 </p>
@@ -93,4 +118,5 @@
     </div>
 
 </body>
+
 </html>
