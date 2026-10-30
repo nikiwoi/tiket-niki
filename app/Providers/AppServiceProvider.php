@@ -11,7 +11,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (! class_exists(\App\Mail\RegistrationEmail::class, false) && is_file(app_path('Mail/registration-email.php'))) {
+            require_once app_path('Mail/registration-email.php');
+        }
     }
 
     /**
