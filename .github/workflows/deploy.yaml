@@ -121,9 +121,12 @@ jobs:
         port: 22
         script: |
           cd /home/uccca-tiketniki/htdocs/tiketniki.uccca.site
-          git pull origin main
+          git fetch origin main
+          git reset --hard origin/main
+          git clean -fd -e vendor.tar.gz
           rm -rf vendor
           tar -xzf vendor.tar.gz
           rm -f vendor.tar.gz
+          rm -f bootstrap/cache/*.php
           php artisan migrate --force
           php artisan config:cache
