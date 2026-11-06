@@ -67,7 +67,8 @@ jobs:
     # Compile frontend production assets (Vite) so they are ready for deployment
     - name: Install NPM Dependencies & Build Assets
       run: |
-        if [ -f package-lock.json ]; then npm ci; else npm install; fi
+        rm -f package-lock.json
+        npm i
         npm run build
 
   deploy:
