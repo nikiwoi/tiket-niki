@@ -34,7 +34,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '22'
 
     - name: Copy Environment File
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -67,19 +67,8 @@ jobs:
     # Compile frontend production assets (Vite) so they are ready for deployment
     - name: Install NPM Dependencies & Build Assets
       run: |
-        npm ci
+        if [ -f package-lock.json ]; then npm ci; else npm install; fi
         npm run build
-
-    # Optional: Push compiled production assets back to Git if your deployment relies on Git integration
-    - name: Commit Built Assets (If required by your hosting Git sync)
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@://github.com"
-        git add public/build -f
-        git diff-index --quiet HEAD || git commit -m "chore: build production assets [skip ci]"
-        git push origin main
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
   deploy:
     name: Deploy to Live Hosting
